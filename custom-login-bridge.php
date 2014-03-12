@@ -9,21 +9,14 @@
  * License: MIT
  */
 
-// Everyone who logins in through the bridge will be logged in as this user.
-if (!defined('CUSTOM_LOGIN_BRIDGE_USER')) {
-	define('CUSTOM_LOGIN_BRIDGE_USER', 'client');
-}
-
-// Validate a user. Override this function with a function which to validate your users.
-if (!function_exists('custom_login_bridge_validate')) {
-	function custom_login_bridge_validate($username, $password) {
-		return false;
-	}
-}
-
 // Get the bridge user.
 function custom_login_bridge_get_bridge_user() {
-	return get_user_by('login', CUSTOM_LOGIN_BRIDGE_USER);
+	$login = 'client';
+	if (defined('CUSTOM_LOGIN_BRIDGE_USER')) {
+		$login = CUSTOM_LOGIN_BRIDGE_USER;
+	}
+
+	return get_user_by('login', $login);
 }
 
 // Adds authentication for bridged users.
@@ -31,6 +24,10 @@ add_filter('authenticate', 'custom_login_bridge_authenticate', 50, 3);
 function custom_login_bridge_authenticate($user, $username, $password) {
 	if (is_a($user, 'WP_User')) {
 		return $user;
+	}
+
+	if (!function_exists('custom_login_bridge_validate')) {
+		return null;
 	}
 
 	if (custom_login_bridge_validate($username, $password)) {
@@ -44,7 +41,8 @@ function custom_login_bridge_authenticate($user, $username, $password) {
 add_action('admin_init', 'custom_login_bridge_block_dashboard');
 function custom_login_bridge_block_dashboard() {
 	$user = wp_get_current_user();
-	if ($user->user_login === CUSTOM_LOGIN_BRIDGE_USER && !constant('DOING_AJAX')) {
+	$bridge_user = custom_login_bridge_get_bridge_user();
+	if ($user->user_login === $bridge_user->user_login && (!defined('DOING_AJAX') || DOING_AJAX)) {
 		wp_redirect(home_url());
 		exit;
 	}
