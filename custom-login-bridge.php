@@ -3,7 +3,7 @@
  * Plugin Name: Custom Login Bridge
  * Plugin URI: http://github.com/thegallagher/custom-login-bridge
  * Description: Allows logging in from another data source. All users will be logged in as the same Wordpress user.
- * Version: 0.1.1
+ * Version: 0.2.0
  * Author: David Gallagher
  * Author URI: http://github.com/thegallagher
  * License: MIT
