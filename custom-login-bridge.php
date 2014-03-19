@@ -111,7 +111,6 @@ function custom_login_bridge_user_info_shortcode( $atts ) {
 	), $atts, 'clb-user-info' ) );
 
 	$current_user = wp_get_current_user();
-	$field = array_shift( $atts );
 	switch ( $field ) {
 		case 'roles':
 		case 'caps':
