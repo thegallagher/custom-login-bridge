@@ -76,7 +76,6 @@ function custom_login_bridge_if_user_shortcode( $atts, $content = null ) {
 		'none'  => null,
 	), $atts, 'clb-if-user' ) );
 
-	$display = true;
 	$current_user = wp_get_current_user();
 	if ( !empty( $id ) ) {
 		$ids = explode( ',', $id );
@@ -89,7 +88,9 @@ function custom_login_bridge_if_user_shortcode( $atts, $content = null ) {
 		$user_role = array_shift( $current_user->roles );
 		$display = in_array ( $user_role, $roles );
 	} elseif ( ! empty( $none ) ) {
-		$display = 0 == $current_user->ID;
+		$display = ( 0 === $current_user->ID );
+	} else {
+		$display = ( 0 !== $current_user->ID );
 	}
 
 	if ( $display ) {
