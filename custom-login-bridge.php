@@ -107,7 +107,7 @@ add_shortcode( 'clb-if-user', 'custom_login_bridge_if_user_shortcode' );
  */
 function custom_login_bridge_user_info_shortcode( $atts ) {
 	extract( shortcode_atts( array(
-		'field' => 'login',
+		'field' => 'user_login',
 	), $atts, 'clb-user-info' ) );
 
 	$current_user = wp_get_current_user();
