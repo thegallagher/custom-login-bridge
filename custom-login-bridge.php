@@ -170,3 +170,18 @@ function custom_login_bridge_login_form_shortcode( $atts ) {
 	return apply_filters( 'custom_login_bridge_login_form', $form );
 }
 add_shortcode( 'clb-login-form', 'custom_login_bridge_login_form_shortcode' );
+
+/**
+ * Shortcode to display login/logout link
+ *
+ * @param $atts
+ * @return string
+ */
+function custom_login_bridge_loginout( $atts ) {
+	extract( shortcode_atts( array(
+		'redirect'  => home_url(),
+	), $atts, 'clb-loginout' ) );
+
+	return wp_loginout( $redirect, false );
+}
+add_shortcode( 'clb-loginout', 'custom_login_bridge_loginout' );
