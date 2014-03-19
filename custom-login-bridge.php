@@ -190,3 +190,15 @@ function custom_login_bridge_loginout( $atts ) {
 	return wp_loginout( $redirect, false );
 }
 add_shortcode( 'clb-loginout', 'custom_login_bridge_loginout' );
+
+/**
+ * Fix empty paragraphs
+ *
+ * @param $content
+ * @return string
+ */
+function custom_login_bridge_fix_empty_p( $content ) {
+	$replace = '#(?:<br\s*/?>|\s)*(\[/?clb-(?:login-form|if-user).*?\])(?:<br\s*/?>|\s)*#i';
+	return preg_replace($replace, '\1', $content);
+}
+add_filter( 'the_content', 'custom_login_bridge_fix_empty_p' );
