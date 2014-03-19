@@ -137,6 +137,11 @@ add_shortcode( 'clb-user-info', 'custom_login_bridge_user_info_shortcode' );
  * @return string
  */
 function custom_login_bridge_login_form_shortcode( $atts ) {
+	$current_user = wp_get_current_user();
+	if ( 0 !== $current_user->ID ) {
+		return null;
+	}
+
 	$atts = shortcode_atts( array(
 		'redirect'       => $_SERVER['REQUEST_URI'],
 		'form_id'        => 'loginform',
