@@ -88,9 +88,9 @@ function custom_login_bridge_if_user_shortcode( $atts, $content = null ) {
 		$user_role = array_shift( $current_user->roles );
 		$display = in_array ( $user_role, $roles );
 	} elseif ( ! empty( $none ) ) {
-		$display = ( 0 === $current_user->ID );
+		$display = ! $current_user->exists();
 	} else {
-		$display = ( 0 !== $current_user->ID );
+		$display = $current_user->exists();
 	}
 
 	if ( $display ) {
@@ -137,8 +137,7 @@ add_shortcode( 'clb-user-info', 'custom_login_bridge_user_info_shortcode' );
  * @return string
  */
 function custom_login_bridge_login_form_shortcode( $atts ) {
-	$current_user = wp_get_current_user();
-	if ( 0 !== $current_user->ID ) {
+	if ( is_user_logged_in() ) {
 		return null;
 	}
 
